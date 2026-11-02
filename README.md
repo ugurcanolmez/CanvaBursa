@@ -18,7 +18,7 @@ CanvaBursa/
 │   ├── icon-512.png           ← Android açılış ekranı simgesi
 │   └── apple-touch-icon.png   ← iPhone / iPad ana ekran simgesi
 ├── google-apps-script/        ← Sayfanın parçası değil, Google'a yapıştırılacak kod
-│   ├── Kod.gs                 ← Veri katmanı (kayıt, çakışma kilidi, iptal, CSV)
+│   └── Kod.gs                 ← Veri katmanı (kayıt, çakışma kilidi, iptal, CSV)
 ├── .nojekyll                  ← GitHub Pages'in dosyaları olduğu gibi yayınlaması için
 └── README.md
 ```
