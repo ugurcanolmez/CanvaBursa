@@ -2,9 +2,9 @@
  * Bursa İl Millî Eğitim Müdürlüğü YEĞİTEK Birimi
  * BTSO Eğitim Vadisi - Canva Sınıfı Rezervasyon Sistemi
  *
- * Sunucu tarafı (Google Apps Script). Bu dosya bir Google E-Tablo'ya bağlı
- * (Uzantılar > Apps Script) olarak çalışır. Tüm kayıtlar "Rezervasyonlar"
- * sayfasına yazılır.
+ * Veri katmanı (Google Apps Script). Web sayfası GitHub Pages'te durur,
+ * kayıtlar bu kod aracılığıyla Google E-Tablo'daki "Rezervasyonlar"
+ * sayfasına yazılır. Apps Script'e yalnızca bu dosyayı yapıştırmanız yeterlidir.
  */
 
 var AYARLAR = {
@@ -73,14 +73,16 @@ var DURUM_AKTIF = 'Aktif';
 var DURUM_IPTAL = 'İptal';
 
 /* ------------------------------------------------------------------ */
-/* Web uygulaması giriş noktası                                         */
+/* Web arayüzü (GitHub Pages'teki sayfa buraya bağlanır)               */
 /* ------------------------------------------------------------------ */
 
+/** Linki tarayıcıda açınca sistemin çalıştığını gösterir. */
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('Canva Sınıfı Rezervasyon | BTSO Eğitim Vadisi')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  return ContentService.createTextOutput(JSON.stringify({
+    durum: 'çalışıyor',
+    sistem: 'BTSO Eğitim Vadisi - Canva Sınıfı Rezervasyon Sistemi',
+    not: 'Bu linki index.html içindeki API_URL satırına yapıştırın.'
+  })).setMimeType(ContentService.MimeType.JSON);
 }
 
 /**

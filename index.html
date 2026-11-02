@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <base target="_top">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Bursa YEĞİTEK - BTSO Eğitim Vadisi Canva Sınıfı rezervasyon ve doluluk takvimi">
+  <meta name="theme-color" content="#1e3a8a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Canva Sınıfı">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <title>Canva Sınıfı Rezervasyon | BTSO Eğitim Vadisi</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; }
+    body { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+    header { padding-top: env(safe-area-inset-top); }
+    .alt-guvenli { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); }
+    button, a { touch-action: manipulation; }
     .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .spin { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -85,7 +98,7 @@
 
   <!-- Alt seçim çubuğu -->
   <div id="secimCubugu" class="fixed inset-x-0 bottom-0 z-30 hidden border-t border-slate-200 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+    <div class="alt-guvenli max-w-7xl mx-auto px-4 pt-3 flex items-center gap-3">
       <div class="min-w-0 flex-1">
         <div class="text-xs text-slate-500">Seçiminiz</div>
         <div id="secimYazi" class="truncate font-semibold text-slate-900"></div>
@@ -198,12 +211,11 @@
    * ===================================================================== */
   var API_URL = '';
 
-  var APPS_SCRIPT_ICINDE = !!(window.google && google.script && google.script.run);
-  var DEMO = !APPS_SCRIPT_ICINDE && !API_URL;
+  var DEMO = !API_URL;
 
   function sunucu(fonksiyon) {
     var argumanlar = Array.prototype.slice.call(arguments, 1);
-    if (!APPS_SCRIPT_ICINDE && API_URL) {
+    if (!DEMO) {
       return fetch(API_URL, {
         method: 'POST',
         // text/plain: tarayıcı ön kontrol (CORS preflight) isteği göndermez
@@ -219,16 +231,10 @@
           return cevap.veri;
         });
     }
-    if (DEMO) {
-      return new Promise(function (coz, reddet) {
-        setTimeout(function () {
-          try { coz(demoSunucu[fonksiyon].apply(null, argumanlar)); } catch (e) { reddet(e); }
-        }, 250);
-      });
-    }
     return new Promise(function (coz, reddet) {
-      var calistir = google.script.run.withSuccessHandler(coz).withFailureHandler(reddet);
-      calistir[fonksiyon].apply(calistir, argumanlar);
+      setTimeout(function () {
+        try { coz(demoSunucu[fonksiyon].apply(null, argumanlar)); } catch (e) { reddet(e); }
+      }, 250);
     });
   }
 
@@ -412,7 +418,7 @@
       v.saatler.forEach(function (saat, j) {
         if (j > 0 && bitis(v.saatler[j - 1]) !== baslangic(saat)) {
           html += '<div class="flex items-center gap-2 py-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">' +
-            '<span class="h-px flex-1 bg-slate-300"></span>Öğle arası ' + bitis(v.saatler[j - 1]) + ' - ' + baslangic(saat) +
+            '<span class="h-px flex-1 bg-slate-300"></span>Öğle arası<span class="md:hidden lg:inline"> ' + bitis(v.saatler[j - 1]) + ' - ' + baslangic(saat) + '</span>' +
             '<span class="h-px flex-1 bg-slate-300"></span></div>';
         }
         html += slotHtml(tarih, saat, yonetici);
