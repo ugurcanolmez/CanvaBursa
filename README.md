@@ -28,17 +28,14 @@ GitHub'a yüklerken bu yapıyı koruyun: `index.html` deponun **ana klasöründe
 
 ## Kurulum
 
-### 1. Google tarafı (bir kez, yaklaşık 5 dakika)
+### 1. Google tarafı (bir kez, yaklaşık 10 dakika)
 
-1. [script.new](https://script.new) adresini açın (sayfanın sahibi olan Google hesabıyla).
-2. Açılan editördeki kodu silin, `google-apps-script/Kod.gs` içeriğini yapıştırın ve kaydedin. Başka dosya gerekmez.
-3. Sol menüden **Proje Ayarları (⚙)** bölümüne girin:
-   - **Saat dilimi:** `(GMT+03:00) İstanbul`
-   - **Komut Dosyası Özellikleri → Özellik ekle:** ad `YONETICI_PIN`, değer kendi PIN'iniz.
-4. Editöre dönün, üstteki listeden `kurulum` fonksiyonunu seçip **Çalıştır**'a basın ve Google'ın istediği izinleri verin.
-5. **Dağıt → Yeni dağıtım → Tür: Web uygulaması** seçin. "Şu kullanıcı olarak çalıştır: **Ben**", "Erişimi olanlar: **Herkes**" ayarlarıyla **Dağıt**'a basın ve `.../exec` ile biten linki kopyalayın.
+Bilgisayardan yapılması önerilir. Ayrıntılı anlatım için aşağıdaki **"Adım adım kurulum"** bölümüne bakın.
 
-`Kod.gs` içindeki `TABLO_ID` hazırlanmış "Canva Sınıfı Rezervasyonları" tablosunu gösterir. Başka bir tablo kullanacaksanız linkindeki `/d/` ile `/edit` arasındaki kimliği buraya yazın. Bu tablo kodu çalıştıran hesabın Drive'ında olmalı.
+1. [script.new](https://script.new) adresinde `google-apps-script/Kod.gs` içeriğini yapıştırıp kaydedin.
+2. **Proje Ayarları → Komut dosyası özellikleri** bölümüne `YONETICI_PIN` adıyla kendi PIN'inizi ekleyin.
+3. `kurulum` fonksiyonunu çalıştırıp izinleri verin. Drive'ınızda "Canva Sınıfı Rezervasyonları" tablosu otomatik oluşur.
+4. **Dağıt → Yeni dağıtım → Web uygulaması** seçin ("Ben" olarak yürüt, erişim "Herkes") ve `.../exec` linkini kopyalayın.
 
 ### 2. Sayfayı Google'a bağlama
 
@@ -88,3 +85,58 @@ Google'dan aldığınız linki tırnakların arasına yapıştırın. Bu satır 
 Kodda değişiklik yaparsanız: **Dağıt → Dağıtımları yönet → Düzenle (kalem) → Sürüm: Yeni sürüm → Dağıt.** Böylece link değişmez.
 
 > ⚠️ Depo herkese açıksa gerçek PIN'i `Kod.gs` içine yazıp GitHub'a göndermeyin. Komut Dosyası Özellikleri'ni kullanın.
+
+## Adım adım kurulum (yeni başlayanlar için)
+
+> Bilgisayardan yapın. Google hesabınıza giriş yapmış olun. Kayıtlar bu hesabın Drive'ında tutulacak.
+
+### A. Kodu kopyalayın
+1. Tarayıcıda `github.com/ugurcanolmez/CanvaBursa` adresini açın.
+2. `google-apps-script` klasörüne, ardından `Kod.gs` dosyasına tıklayın.
+3. Kodun sağ üst köşesindeki **iki üst üste kare** simgesine ("Copy raw file") tıklayın. Kodun tamamı kopyalanır.
+
+### B. Google'a yapıştırın
+1. Yeni sekmede **script.new** adresini açın. Google Apps Script editörü açılır.
+2. Ekranda `function myFunction() { }` yazan kod var. Önce **Ctrl+A**, ardından **Delete** ile silin.
+3. **Ctrl+V** ile kopyaladığınız kodu yapıştırın.
+4. Sol üstteki **"Adsız proje"** yazısına tıklayıp adını `Canva Sınıfı Rezervasyon` yapın.
+5. **Ctrl+S** ile ya da üstteki disket simgesiyle kaydedin.
+
+### C. Yönetici PIN'ini belirleyin
+1. Soldaki dar menüde en alttaki **dişli çark (Proje Ayarları)** simgesine tıklayın.
+2. Sayfanın en altına inin, **"Komut dosyası özelliği ekle"** butonuna basın.
+3. **Özellik** kutusuna `YONETICI_PIN`, **Değer** kutusuna kendi PIN'inizi yazın (örn. `4826`).
+4. **"Komut dosyası özelliklerini kaydet"** butonuna basın.
+
+### D. Kurulumu çalıştırın ve izin verin
+1. Soldaki menüden **`< >` (Düzenleyici)** simgesine tıklayıp koda dönün.
+2. Üst çubukta **"Çalıştır"** butonunun yanındaki açılır listeden `kurulum` seçin.
+3. **Çalıştır**'a basın. "Yetkilendirme gerekli" penceresi çıkar → **İzinleri incele**.
+4. Google hesabınızı seçin.
+5. **"Google bu uygulamayı doğrulamadı"** uyarısı çıkar. Bu normaldir, uygulamayı siz yazdığınız için çıkar. Sol alttaki **Gelişmiş** → **"Canva Sınıfı Rezervasyon (güvenli değil) sayfasına git"** → **İzin ver**.
+6. Alttaki "Yürütme günlüğü" kısmında **"Kurulum tamam. Kayıtlar bu tabloda tutulacak: https://docs.google.com/..."** yazısını görürsünüz. Drive'ınızda "Canva Sınıfı Rezervasyonları" tablosu oluşmuştur.
+
+### E. Yayına alın ve linki alın
+1. Sağ üstteki mavi **Dağıt** butonu → **Yeni dağıtım**.
+2. "Tür seçin" yazısının yanındaki **dişli çark** → **Web uygulaması**.
+3. Ayarlar:
+   - **Açıklama:** `Canva Sınıfı` (isteğe bağlı)
+   - **Şu kullanıcı olarak yürüt:** **Ben**
+   - **Erişimi olanlar:** **Herkes**. "Google hesabı olan herkes" seçeneğini değil, düz **Herkes**'i seçin.
+4. **Dağıt**'a basın. Yeniden izin isterse D adımındaki gibi izin verin.
+5. **Web uygulaması URL'si** altında `https://script.google.com/macros/s/...../exec` linki çıkar. **Kopyala**'ya basın.
+6. Kontrol için linki yeni sekmede açın. `"durum":"çalışıyor"` yazısı görünüyorsa her şey yolunda.
+
+### F. Linki sayfaya ekleyin
+1. GitHub'da deponun ana sayfasında `index.html` dosyasına tıklayın.
+2. Sağ üstteki **kalem (Edit)** simgesine tıklayın.
+3. **Ctrl+F** ile `API_URL` arayın. `var API_URL = '';` satırını bulun.
+4. İki tek tırnağın **arasına** linki yapıştırın. Satır şöyle görünmeli:
+   `var API_URL = 'https://script.google.com/macros/s/...../exec';`
+5. Sağ üstteki yeşil **Commit changes...** → tekrar **Commit changes**.
+6. 1–2 dakika sonra sayfayı yenileyin. Sarı "Demo modu" yazısı kaybolduysa sistem bağlanmıştır.
+
+### Sorun çıkarsa
+- **Sayfada "Veriler alınamadı" yazıyor:** E3'te erişim büyük ihtimalle "Herkes" değil. Dağıt → Dağıtımları yönet → kalem → Erişim: Herkes → Dağıt.
+- **Kodu değiştirdim ama etkisi yok:** Dağıt → Dağıtımları yönet → kalem → Sürüm: **Yeni sürüm** → Dağıt. Böylece link aynı kalır.
+- **Kayıtları görmek:** Drive'daki "Canva Sınıfı Rezervasyonları" tablosunu açın.

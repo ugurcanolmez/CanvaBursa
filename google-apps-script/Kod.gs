@@ -9,8 +9,8 @@
 
 var AYARLAR = {
   // Kayıtların tutulduğu Google E-Tablo'nun kimliği (linkteki /d/ ile /edit arasındaki kısım).
-  // Kod doğrudan E-Tablo'nun içinden (Uzantılar > Apps Script) açıldıysa boş bırakılabilir.
-  TABLO_ID: '1m8okHB0eAxoZrhW9Q-iNMniK5J25nhYOgDmCYfNh-ZI',
+  // Boş bırakırsanız "kurulum" çalıştırıldığında Drive'ınızda yeni bir tablo otomatik oluşturulur.
+  TABLO_ID: '',
 
   SAYFA_ADI: 'Rezervasyonlar',
 
@@ -120,7 +120,7 @@ function doPost(e) {
  */
 function kurulum() {
   var sayfa = sayfaGetir_();
-  Logger.log('Kurulum tamam. Sayfa: ' + sayfa.getName());
+  Logger.log('Kurulum tamam. Kayıtlar bu tabloda tutulacak: ' + sayfa.getParent().getUrl());
 }
 
 /* ------------------------------------------------------------------ */
@@ -322,10 +322,25 @@ function csvOlustur(pin) {
 /* Yardımcılar                                                         */
 /* ------------------------------------------------------------------ */
 
+/** Tabloyu bulur; hiç yoksa Drive'da yenisini oluşturup kimliğini saklar. */
+function tabloGetir_() {
+  if (AYARLAR.TABLO_ID) return SpreadsheetApp.openById(AYARLAR.TABLO_ID);
+
+  var aktif = SpreadsheetApp.getActiveSpreadsheet();
+  if (aktif) return aktif;
+
+  var ozellikler = PropertiesService.getScriptProperties();
+  var kayitliId = ozellikler.getProperty('TABLO_ID');
+  if (kayitliId) return SpreadsheetApp.openById(kayitliId);
+
+  // Normalde "kurulum" fonksiyonu bir kez çalıştırılınca burada oluşturulur.
+  var yeni = SpreadsheetApp.create('Canva Sınıfı Rezervasyonları');
+  ozellikler.setProperty('TABLO_ID', yeni.getId());
+  return yeni;
+}
+
 function sayfaGetir_() {
-  var ss = AYARLAR.TABLO_ID
-    ? SpreadsheetApp.openById(AYARLAR.TABLO_ID)
-    : SpreadsheetApp.getActiveSpreadsheet();
+  var ss = tabloGetir_();
   var sayfa = ss.getSheetByName(AYARLAR.SAYFA_ADI);
   if (sayfa) return sayfa;
 
@@ -345,6 +360,13 @@ function sayfaGetir_() {
     .setFontColor('#ffffff');
   sayfa.setFrozenRows(1);
   sayfa.autoResizeColumns(1, BASLIKLAR.length);
+
+  // Yeni tablodaki boş varsayılan sayfayı (Sayfa1) kaldır.
+  ss.getSheets().forEach(function (diger) {
+    if (diger.getName() !== AYARLAR.SAYFA_ADI && diger.getLastRow() === 0 && ss.getSheets().length > 1) {
+      ss.deleteSheet(diger);
+    }
+  });
   return sayfa;
 }
 
