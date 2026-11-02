@@ -19,7 +19,6 @@ CanvaBursa/
 │   └── apple-touch-icon.png   ← iPhone / iPad ana ekran simgesi
 ├── google-apps-script/        ← Sayfanın parçası değil, Google'a yapıştırılacak kod
 │   ├── Kod.gs                 ← Veri katmanı (kayıt, çakışma kilidi, iptal, CSV)
-│   └── appsscript.json        ← Proje ayarları (saat dilimi İstanbul)
 ├── .nojekyll                  ← GitHub Pages'in dosyaları olduğu gibi yayınlaması için
 └── README.md
 ```
