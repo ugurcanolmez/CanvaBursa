@@ -8,6 +8,10 @@
  */
 
 var AYARLAR = {
+  // Kayıtların tutulduğu Google E-Tablo'nun kimliği (linkteki /d/ ile /edit arasındaki kısım).
+  // Kod doğrudan E-Tablo'nun içinden (Uzantılar > Apps Script) açıldıysa boş bırakılabilir.
+  TABLO_ID: '1m8okHB0eAxoZrhW9Q-iNMniK5J25nhYOgDmCYfNh-ZI',
+
   SAYFA_ADI: 'Rezervasyonlar',
 
   // Yönetici PIN kodu. MUTLAKA DEĞİŞTİRİN.
@@ -288,7 +292,9 @@ function csvOlustur(pin) {
 /* ------------------------------------------------------------------ */
 
 function sayfaGetir_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = AYARLAR.TABLO_ID
+    ? SpreadsheetApp.openById(AYARLAR.TABLO_ID)
+    : SpreadsheetApp.getActiveSpreadsheet();
   var sayfa = ss.getSheetByName(AYARLAR.SAYFA_ADI);
   if (sayfa) return sayfa;
 

@@ -26,7 +26,7 @@ Canva Sınıfı için ortak rezervasyon ve doluluk takvimi. Google E-Tablolar + 
 
 ## Yayına alma (5 adım)
 
-1. **E-Tablo oluşturun:** [sheets.new](https://sheets.new) ile yeni bir Google E-Tablo açın, adını "Canva Sınıfı Rezervasyonları" yapın.
+1. **E-Tabloyu açın:** Tablo hazır: [Canva Sınıfı Rezervasyonları](https://docs.google.com/spreadsheets/d/1m8okHB0eAxoZrhW9Q-iNMniK5J25nhYOgDmCYfNh-ZI/edit) (stemscientixbursa@gmail.com Drive'ında; `Kod.gs` içindeki `TABLO_ID` bu tabloya bağlı). Farklı bir tablo kullanacaksanız `TABLO_ID` değerini değiştirin veya boş bırakın.
 2. **Kodu yapıştırın:** Menüden **Uzantılar → Apps Script**'i açın. `Kod.gs` içeriğini mevcut kodun yerine yapıştırın. Sol taraftaki **+ → HTML** ile `index` adında bir dosya oluşturup `index.html` içeriğini yapıştırın. Kaydedin (Ctrl+S).
 3. **PIN'i değiştirin ve kurun:** `Kod.gs` başındaki `YONETICI_PIN: '1234'` değerini kendi PIN'inizle değiştirin. Üstteki fonksiyon listesinden `kurulum`'u seçip **Çalıştır**'a basın, Google'ın istediği izinleri verin. E-Tablo'da "Rezervasyonlar" sayfası oluşacak.
 4. **Web uygulaması olarak dağıtın:** **Dağıt → Yeni dağıtım → Tür: Web uygulaması**. "Şu kullanıcı olarak çalıştır: **Ben**", "Erişimi olanlar: **Herkes**" seçip **Dağıt**'a basın.
