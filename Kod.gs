@@ -84,6 +84,35 @@ function doGet() {
 }
 
 /**
+ * GitHub Pages gibi başka bir adresteki sayfanın kullandığı JSON arayüzü.
+ * İstek gövdesi: {"islem": "haftayiGetir", "args": [...]}
+ */
+function doPost(e) {
+  var izinli = {
+    haftayiGetir: haftayiGetir,
+    rezervasyonYap: rezervasyonYap,
+    yoneticiGiris: yoneticiGiris,
+    rezervasyonIptal: rezervasyonIptal,
+    csvOlustur: csvOlustur
+  };
+  var cevap;
+  try {
+    var istek = JSON.parse(e && e.postData ? e.postData.contents : '{}');
+    var fonksiyon = Object.prototype.hasOwnProperty.call(izinli, istek.islem) ? izinli[istek.islem] : null;
+    if (!fonksiyon) {
+      cevap = { basari: false, hata: 'Bilinmeyen işlem.' };
+    } else {
+      var argumanlar = Array.isArray(istek.args) ? istek.args : [];
+      cevap = { basari: true, veri: fonksiyon.apply(null, argumanlar) };
+    }
+  } catch (hata) {
+    cevap = { basari: false, hata: String(hata && hata.message ? hata.message : hata) };
+  }
+  return ContentService.createTextOutput(JSON.stringify(cevap))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
  * İlk kurulumda bir kez elle çalıştırın: sayfayı oluşturur ve
  * Google'ın izin ekranını açar.
  */

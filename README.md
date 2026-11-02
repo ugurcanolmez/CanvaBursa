@@ -32,6 +32,17 @@ Canva Sınıfı için ortak rezervasyon ve doluluk takvimi. Google E-Tablolar + 
 4. **Web uygulaması olarak dağıtın:** **Dağıt → Yeni dağıtım → Tür: Web uygulaması**. "Şu kullanıcı olarak çalıştır: **Ben**", "Erişimi olanlar: **Herkes**" seçip **Dağıt**'a basın.
 5. **Linki paylaşın:** Size verilen `https://script.google.com/macros/s/.../exec` linkini öğretmenlerle paylaşın (WhatsApp, e-posta, QR kod). Tüm kayıtlar E-Tablo'nuza düşer.
 
+## Web sayfası olarak yayınlama (GitHub Pages)
+
+Sayfa `https://ugurcanolmez.github.io/CanvaBursa/` adresinden açılır; kayıtlar yine Google E-Tablo'da tutulur.
+
+1. Yukarıdaki 5 adımı tamamlayın ve `.../exec` ile biten linki kopyalayın.
+2. `index.html` içinde `var API_URL = '';` satırını bulun, linki tırnakların arasına yapıştırın.
+3. GitHub'da **Settings → Pages → Build and deployment → Source: Deploy from a branch** seçin, dalı seçip klasörü `/ (root)` bırakın, **Save**'e basın.
+4. 1-2 dakika sonra sayfa `https://ugurcanolmez.github.io/CanvaBursa/` adresinde açılır.
+
+> ⚠️ Bu depo herkese açık. Gerçek PIN'i `Kod.gs` içine yazıp GitHub'a göndermeyin. PIN'i Apps Script'te **Proje Ayarları → Komut Dosyası Özellikleri** bölümüne `YONETICI_PIN` adıyla ekleyin; kod önce oraya bakar.
+
 > Kodda değişiklik yaparsanız: **Dağıt → Dağıtımları yönet → Düzenle (kalem) → Sürüm: Yeni sürüm → Dağıt.** Böylece link değişmez.
 
 ### Ayarlar (`Kod.gs` başındaki `AYARLAR`)

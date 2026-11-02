@@ -32,7 +32,7 @@
 
   <div id="demoUyari" class="hidden bg-amber-100 border-b border-amber-300 text-amber-900 text-sm">
     <div class="max-w-7xl mx-auto px-4 py-2">
-      <strong>Demo modu:</strong> Bu sayfa Google Apps Script dışında açıldı. Kayıtlar yalnızca bu tarayıcıda tutulur, diğer cihazlarla paylaşılmaz. (Demo PIN: 1234)
+      <strong>Demo modu:</strong> Sayfa henüz Google tablosuna bağlanmadı. Kayıtlar yalnızca bu tarayıcıda tutulur, diğer cihazlarla paylaşılmaz. (Demo PIN: 1234)
     </div>
   </div>
 
@@ -190,10 +190,35 @@
 
   /* ---------------- Sunucu bağlantısı ---------------- */
 
-  var DEMO = !(window.google && google.script && google.script.run);
+  /* =====================================================================
+   * GOOGLE APPS SCRIPT ADRESİ
+   * Apps Script'i "Web uygulaması" olarak dağıttıktan sonra verilen
+   * https://script.google.com/macros/s/.../exec linkini tırnakların
+   * arasına yapıştırın. Boş kalırsa sayfa demo modunda çalışır.
+   * ===================================================================== */
+  var API_URL = '';
+
+  var APPS_SCRIPT_ICINDE = !!(window.google && google.script && google.script.run);
+  var DEMO = !APPS_SCRIPT_ICINDE && !API_URL;
 
   function sunucu(fonksiyon) {
     var argumanlar = Array.prototype.slice.call(arguments, 1);
+    if (!APPS_SCRIPT_ICINDE && API_URL) {
+      return fetch(API_URL, {
+        method: 'POST',
+        // text/plain: tarayıcı ön kontrol (CORS preflight) isteği göndermez
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ islem: fonksiyon, args: argumanlar })
+      })
+        .then(function (yanit) {
+          if (!yanit.ok) throw new Error('Sunucu yanıt vermedi (' + yanit.status + ')');
+          return yanit.json();
+        })
+        .then(function (cevap) {
+          if (!cevap.basari) throw new Error(cevap.hata || 'Bilinmeyen hata');
+          return cevap.veri;
+        });
+    }
     if (DEMO) {
       return new Promise(function (coz, reddet) {
         setTimeout(function () {
